@@ -1,0 +1,191 @@
+global
+// JavaScript code
+    function splitText(m) {
+        let str =m[0].split('.').slice(1).map(item=> item.endsWith(';') ? item.slice(0, -1) : item);
+        
+        return str;
+    }
+
+    function capitalizeFirstLetter(text) {
+        return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    function lowerCaseFirstLetter(text) {
+        return text.charAt(0).toLowerCase() + text.slice(1);
+    }
+
+    function converCallText(text) {
+        return lowerCaseFirstLetter(text.replace(/fetchAll|fetchOne/g,'').replace('Api',''));
+    }
+
+    function PahtName(){
+      return false;
+    }
+
+endglobal
+
+snippet `\sl(\..+)?;` "Fraction with ()" A
+console.log(${1:``rv = splitText(m)[0]``});$0
+endsnippet
+
+snippet `\sl(\..+)?;` "Fraction with ()" A
+console.log(${1:``rv = splitText(m)[0]``});$0
+endsnippet
+
+snippet `\sr(\.\w+)(\..+)?;` "Fraction with ()" A
+const ``rv = splitText(m)[0]`` = useRef(${1:``rv= splitText(m)[1]||''``});$0
+endsnippet
+
+snippet `\ss(\.\w+)(\..+)?;` "Fraction with ()" A
+const [``rv = splitText(m)[0]``,set``rv = capitalizeFirstLetter(splitText(m)[0])``] = useState(${1:``rv= splitText(m)[1]||''``});$0
+endsnippet
+
+snippet `\scall(\.\w+){0,2};` "Fraction with ()" A
+const [${1:``rv = converCallText(splitText(m)[0])``},``rv = converCallText(splitText(m)[0])``Loading,``rv = converCallText(splitText(m)[0])``Call ``rv = splitText(m)?.[1] ? `,${converCallText(splitText(m)?.[0])}Count` : '' ``] = useApiCall(``rv= splitText(m)[0]||''`` ``rv= splitText(m)[1] ? `,${splitText(m)[0].replace('Api','')}CountApi`:'' ``);$0
+endsnippet
+
+snippet `\sf;` "Fraction with ()" A
+const [form] = Form.useForm();$0
+endsnippet
+
+snippet `\se(\..+)?;` "Fraction with ()" A
+useEffect(() => {
+    ${1}
+}, [${2:``rv = splitText(m)[0] ? splitText(m)[0] : ''``}]);$0
+endsnippet
+
+snippet `\sfset(\..+)?;` "Fraction with ()" A
+form.setFieldsValue({
+    ${1:``rv = splitText(m)[0] ? splitText(m)[0] : ''``}
+});$0
+endsnippet
+
+snippet `\ssetu;` "Fraction with ()" A
+const [${1:upload}Loading, setUploadLoading] = useState(false);
+const [uploadedFile, setUploadedFile] = useState(null);$0
+endsnippet
+
+snippet `\suplf(\..+)?;` "Fraction with ()" A
+const uploadFile = async file => {
+    setUploadLoading(true);
+    const callback = await addUploadApi(file);
+    setUploadLoading(false);
+    if (callback) {
+      const uploadedData = callback?.data ? callback?.data[0] : null;
+      setAllImages(`` rv=  splitText(m)[0] ? 'prev => [...prev, { ...uploadedData, url: convertFileUrl(uploadedData?.url) }]' : '{ ...uploadedData, url: convertFileUrl(uploadedData?.url) }' ``);
+    }
+    return false;
+};$0
+endsnippet
+
+snippet `\scolumn(\..+){0,4};` "Fraction with ()" A
+{
+    title: '`` rv=  splitText(m)[0] ``',
+    dataIndex: '`` rv=  splitText(m)[1] ``',
+    key: '`` rv=  splitText(m)[1] ``',
+    `` rv=  splitText(m)[2] && `fixed: ${splitText(m)[2]  ==='l' && `'left,'` || splitText(m)[2]  ==='r' && `'right,'`}`   ``
+    `` rv=  splitText(m)[3] && `sorter: true,` ``
+    render: ${1:text} => defText(text, 'left'),
+}$0
+endsnippet
+
+snippet `\stbw(\..+)?;` "Fraction with ()" A
+<TableWrapper
+   dataSource={`` rv=  splitText(m)[0] || '' ``}
+   columns={${1:columns}}
+   loading={`` rv=  splitText(m)[0] || '' ``Loading}
+   total={`` rv=  splitText(m)[0] || '' ``Count}
+   filterContent={filterContent}
+   filterData={filterData}
+   getTableData={get`` rv=  capitalizeFirstLetter(splitText(m)[0]) || '' ``}
+   footer={true}
+   ${2:restHeight='290px'}
+   triggerRequest={triggerRequest}
+/>
+endsnippet
+
+
+snippet `\sUpl(\..+)?;` "Fraction with ()" A
+<Upload
+   listType='text'
+   beforeUpload={uploadFile}
+   maxCount={1}
+   fileList={${1:uploaded}File ? [uploadedFile] : []}
+   onRemove={() => setUploadedFile(null)}
+   customRequest={() => {}}
+   accept='`` rv=  splitText(m)[0] ? '.jpeg,.jpg,.png,.svg' : '.jpeg,.jpg,.png,.tiff,.pdf,.zip,.doc,.docx' ``'
+   display='flex'
+   justify='space-between'
+   showUploadList={false}
+   width='100%'
+>
+${2}
+</Upload>$0
+endsnippet
+
+
+snippet `\sfii(\..+){0,4};` "Fraction with ()" A
+<Col span={`` rv = splitText(m)[3] || '12'``}>
+    <FormItem
+      label='`` rv=  splitText(m)[0] ||''``'
+      name=${1:`` rv= splitText(m)[1].replace(/\[|\]|'|"/g,'').split(',')[1] ? `{${splitText(m)[1]}}` : `'${splitText(m)[1].replace(/\[|\]|'|"/g,'')}'` ``}
+      `` rv=  splitText(m)[2] === 't' ? `rules={[{ required: true, message: '${splitText(m)[0]} is required!' }]}` : '' ``
+    >
+      <Input />
+    </FormItem>
+</Col>$0
+endsnippet
+
+snippet `\sfiin(\..+){0,4};` "Fraction with ()" A
+<Col span={`` rv = splitText(m)[3] || '12'``}>
+    <FormItem
+      label='`` rv=  splitText(m)[0] ||''``'
+      name=${1:`` rv= splitText(m)[1].replace(/\[|\]|'|"/g,'').split(',')[1] ? `{${splitText(m)[1]}}` : `'${splitText(m)[1].replace(/\[|\]|'|"/g,'')}'` ``}
+      `` rv=  splitText(m)[2] === 't' ? `rules={[{ required: true, message: '${splitText(m)[0]} is required!' }]}` : '' ``
+    >
+      <InputNumber />
+    </FormItem>
+</Col>$0
+endsnippet
+
+snippet `\sfid(\..+){0,4};` "Fraction with ()" A
+<Col span={`` rv = splitText(m)[3] || '12'``}>
+    <FormItem
+      label='`` rv=  splitText(m)[0] ||''``'
+      name=${1:`` rv= splitText(m)[1].replace(/\[|\]|'|"/g,'').split(',')[1] ? `{${splitText(m)[1]}}` : `'${splitText(m)[1].replace(/\[|\]|'|"/g,'')}'` ``}
+      `` rv=  splitText(m)[2] === 't' ? `rules={[{ required: true, message: '${splitText(m)[0]} is required!' }]}` : '' ``
+    >
+      <DatePicker format='ll' />
+    </FormItem>
+</Col>$0
+endsnippet
+
+snippet `\sfis(\..+){0,5};` "Fraction with ()" A
+<Col span={`` rv = splitText(m)[5] || '12'``}>
+    <FormItem
+      label='`` rv=  splitText(m)[0] ||''``'
+      name=${1:`` rv= splitText(m)[1].replace(/\[|\]|'|"/g,'').split(',')[1] ? `{${splitText(m)[1]}}` : `'${splitText(m)[1].replace(/\[|\]|'|"/g,'')}'` ``}
+      `` rv=  splitText(m)[2] === 't' ? `rules={[{ required: true, message: '${splitText(m)[0]} is required!' }]}` : '' ``
+    >
+      <Select
+         showSearch={true}
+         filterOption={filterOption}
+         allowClear={true} 
+       >
+         {`` rv = splitText(m)[4] === 't' ? `[{ id: '', model: 'ANY' }, ...${splitText(m)[3] || ''}]` : splitText(m)[3] || '' ``?.map(el => (
+           <Select.Option value={el.id} key={el.id}>
+             {el?.name}
+           </Select.Option>
+         ))}
+       </Select>
+    </FormItem>
+</Col>$0
+endsnippet
+
+snippet `\spr(\..+){0,2};` "Fraction with ()" A
+${props =>
+    props.`` rv=  splitText(m)[0] || ''`` `` rv=  splitText(m)[1] ? `=== '${splitText(m)[1]}'` : ''`` &&
+    css`
+    ${1}
+`}$0
+endsnippet
